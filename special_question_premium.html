@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A Special Question</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{overflow:hidden;height:100vh;background:linear-gradient(135deg,#ffd6e7,#dff6ff,#fff2bf);display:flex;justify-content:center;align-items:center}
+.page{display:none;position:absolute;inset:0;justify-content:center;align-items:center}
+.active{display:flex;animation:fade .5s}
+@keyframes fade{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+.card{background:#ffffffea;padding:40px;border-radius:24px;box-shadow:0 15px 40px rgba(0,0,0,.18);width:min(92vw,560px);text-align:center}
+h1{font-size:40px;margin-bottom:28px}h2{font-size:34px;margin-bottom:26px}p{font-size:29px;line-height:1.7}
+button{padding:14px 36px;font-size:22px;border:none;border-radius:14px;cursor:pointer;transition:.2s}
+.start{background:#ff5ea8;color:#fff}.no{background:#34c759;color:#fff}.continue{background:#4b7bec;color:#fff}
+#questionArea{position:relative;height:230px}
+#yes{position:absolute;background:#ff4b5c;color:#fff}
+.float,.heart,.conf{position:absolute;pointer-events:none}
+.float{animation:fly linear infinite;font-size:28px}
+@keyframes fly{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-120vh) rotate(360deg)}}
+.heart{font-size:28px;animation:rise 2s forwards}
+@keyframes rise{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-220px) scale(1.8)}}
+.conf{font-size:20px;animation:burst 1.8s forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y)) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<audio id="bgm" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+<div id="fx"></div><div id="em"></div>
+
+<div id="p1" class="page active"><div class="card"><h1>🎈 A Special Question 🎈</h1><button class="start" onclick="start()">Start</button></div></div>
+<div id="p2" class="page"><div class="card"><h2>زعلانة؟</h2><div id="questionArea"><button class="no" onclick="good()">لا</button><button id="yes">أه</button></div></div></div>
+<div id="p3" class="page"><div class="card"><h2>Yayyyy that's my dodddiii 😉😛💗</h2><button class="continue" onclick="show('p4')">Continue</button></div></div>
+<div id="p4" class="page"><div class="card"><p id="typing"></p></div></div>
+
+<script>
+function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='p4')type();}
+function start(){document.getElementById('bgm').play().catch(()=>{});show('p2')}
+const y=document.getElementById('yes'),a=document.getElementById('questionArea');
+function mv(){y.style.left=Math.random()*(a.clientWidth-y.offsetWidth)+'px';y.style.top=Math.random()*(a.clientHeight-y.offsetHeight)+'px'}
+mv();['mouseenter','mouseover','click','touchstart'].forEach(e=>y.addEventListener(e,(ev)=>{if(e==='touchstart')ev.preventDefault();mv();}));
+function good(){confetti();show('p3')}
+function confetti(){const fx=document.getElementById('fx');for(let i=0;i<80;i++){let s=document.createElement('div');s.className='conf';s.textContent=['💗','✨','🎉','🤍','🌸'][i%5];s.style.left='50vw';s.style.top='50vh';s.style.setProperty('--x',(Math.random()*700-350)+'px');s.style.setProperty('--y',(Math.random()*500-250)+'px');fx.appendChild(s);setTimeout(()=>s.remove(),1800)}}
+const msg="Love you my idiot donia 💗💗❣️😉\n\nصالحتك بتخصصك يا كارزما متضيقيش بقى";
+function type(){let i=0,t=document.getElementById('typing');t.innerHTML='';let h=setInterval(()=>{t.innerHTML+=msg[i]=='\n'?'<br>':msg[i];i++;if(i>=msg.length){clearInterval(h);hearts();}},45)}
+function hearts(){const fx=document.getElementById('fx');setInterval(()=>{let h=document.createElement('div');h.className='heart';h.textContent='💗';h.style.left=(20+Math.random()*60)+'vw';h.style.bottom='0';fx.appendChild(h);setTimeout(()=>h.remove(),2000)},250)}
+const em=document.getElementById('em'),arr=["🎈","🌸","🤍","💙","😜","🫵🏼","☝️","✨","💗"];
+for(let i=0;i<55;i++){let d=document.createElement('div');d.className='float';d.textContent=arr[Math.floor(Math.random()*arr.length)];d.style.left=Math.random()*100+'vw';d.style.animationDuration=(6+Math.random()*7)+'s';d.style.animationDelay=(Math.random()*7)+'s';em.appendChild(d);}
+</script>
+</body></html>
